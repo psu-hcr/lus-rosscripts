@@ -1,0 +1,130 @@
+"""
+This is a script of basis function for Koopman Operator
+This basis is use the combination of sine and cosine of each joint
+"""
+	def basis_func(self, measure):
+		"""
+		convert measurement into basis function
+		"""
+		
+		# initial basis function
+		self.basis = np.zeros(self.size)
+		
+		# classify measure into position, velocity and effoct
+		self.pos = measure[:7]
+		self.vel = measure[7:14]
+		self.Torque = measure[14:21]
+		self.endpos = measure[21:]
+		
+		# basis function 0-13 are pos & vel
+		self.basis[:14] = measure[:14]
+		
+		# 14-21 are fianl position and orientation of end effector
+		self.basis[14:21] = self.endpos
+		
+		# Last 7 are input/eff
+		self.basis[(self.size-self.inputsize):] = self.Torque
+		# basis function 21-29
+		self.basis[21] = cos(self.pos[0])
+		self.basis[22] = cos(self.pos[1])
+		self.basis[23] = cos(self.pos[2])
+		self.basis[24] = cos(self.pos[3])
+		self.basis[25] = cos(self.pos[4])
+		self.basis[26] = cos(self.pos[5])
+		self.basis[27] = sin(self.pos[0])
+		self.basis[28] = sin(self.pos[1])
+		self.basis[29] = sin(self.pos[2])
+		
+		# basis function 30-39
+		self.basis[30] = sin(self.pos[3])
+		self.basis[31] = sin(self.pos[4])
+		self.basis[32] = sin(self.pos[5])
+		self.basis[33] = 1															# constant variable
+		self.basis[34] = sin(self.pos[0] + self.pos[1])											# sin01
+		self.basis[35] = sin(self.pos[0] + self.pos[1] + self.pos[2])									# sin012
+		self.basis[36] = sin(self.pos[0] + self.pos[1] + self.pos[2]+ self.pos[3])								# sin0123
+		self.basis[37] = sin(self.pos[0] + self.pos[1] + self.pos[2]+ self.pos[3] + self.pos[4])						# sin01234
+		self.basis[38] = sin(self.pos[0] + self.pos[1] + self.pos[2]+ self.pos[3] + self.pos[4] + self.pos[5])				# sin012345
+		self.basis[39] = cos(self.pos[0] + self.pos[1])											# cos01
+		
+		# basis function 40-49
+		self.basis[40] = cos(self.pos[0] + self.pos[1] + self.pos[2])									# cos012
+		self.basis[41] = cos(self.pos[0] + self.pos[1] + self.pos[2]+ self.pos[3])								# cos0123
+		self.basis[42] = cos(self.pos[0] + self.pos[1] + self.pos[2]+ self.pos[3] + self.pos[4])						# cos01234
+		self.basis[43] = cos(self.pos[0] + self.pos[1] + self.pos[2]+ self.pos[3] + self.pos[4] + self.pos[5])				# cos012345
+		self.basis[44] = sin(self.pos[0]) * sin(self.pos[1]) * sin(self.pos[2]) * sin(self.pos[3]) * sin(self.pos[4]) * sin(self.pos[5])	# s0s1s2s3s4s5
+		self.basis[45] = sin(self.pos[0]) * sin(self.pos[1]) * sin(self.pos[2]) * sin(self.pos[3]) * sin(self.pos[4]) * cos(self.pos[5])	# s0s1s2s3s4c5
+		self.basis[46] = sin(self.pos[0]) * sin(self.pos[1]) * sin(self.pos[2]) * sin(self.pos[3]) * cos(self.pos[4]) * sin(self.pos[5])	# s0s1s2s3c4s5
+		self.basis[47] = sin(self.pos[0]) * sin(self.pos[1]) * sin(self.pos[2]) * sin(self.pos[3]) * cos(self.pos[4]) * cos(self.pos[5])	# s0s1s2s3c4c5
+		self.basis[48] = sin(self.pos[0]) * sin(self.pos[1]) * sin(self.pos[2]) * cos(self.pos[3]) * sin(self.pos[4]) * sin(self.pos[5])	# s0s1s2c3s4s5
+		self.basis[49] = sin(self.pos[0]) * sin(self.pos[1]) * sin(self.pos[2]) * cos(self.pos[3]) * sin(self.pos[4]) * cos(self.pos[5])	# s0s1s2c3s4c5
+		
+		# basis function 50-59
+		self.basis[50] = sin(self.pos[0]) * sin(self.pos[1]) * sin(self.pos[2]) * cos(self.pos[3]) * cos(self.pos[4]) * sin(self.pos[5])	# s0s1s2c3c4s5
+		self.basis[51] = sin(self.pos[0]) * sin(self.pos[1]) * sin(self.pos[2]) * cos(self.pos[3]) * cos(self.pos[4]) * cos(self.pos[5])	# s0s1s2c3c4c5
+		self.basis[52] = sin(self.pos[0]) * sin(self.pos[1]) * cos(self.pos[2]) * sin(self.pos[3]) * sin(self.pos[4]) * sin(self.pos[5])	# s0s1c2s3s4s5
+		self.basis[53] = sin(self.pos[0]) * sin(self.pos[1]) * cos(self.pos[2]) * sin(self.pos[3]) * sin(self.pos[4]) * cos(self.pos[5])	# s0s1c2s3s4c5
+		self.basis[54] = sin(self.pos[0]) * sin(self.pos[1]) * cos(self.pos[2]) * sin(self.pos[3]) * cos(self.pos[4]) * sin(self.pos[5])	# s0s1c2s3c4s5
+		self.basis[55] = sin(self.pos[0]) * sin(self.pos[1]) * cos(self.pos[2]) * sin(self.pos[3]) * cos(self.pos[4]) * cos(self.pos[5])	# s0s1c2s3c4c5
+		self.basis[56] = sin(self.pos[0]) * sin(self.pos[1]) * cos(self.pos[2]) * cos(self.pos[3]) * sin(self.pos[4]) * sin(self.pos[5])	# s0s1c2c3s4s5
+		self.basis[57] = sin(self.pos[0]) * sin(self.pos[1]) * cos(self.pos[2]) * cos(self.pos[3]) * sin(self.pos[4]) * cos(self.pos[5])	# s0s1c2c3s4c5
+		self.basis[58] = sin(self.pos[0]) * sin(self.pos[1]) * cos(self.pos[2]) * cos(self.pos[3]) * cos(self.pos[4]) * sin(self.pos[5])	# s0s1c2c3c4s5
+		self.basis[59] = sin(self.pos[0]) * sin(self.pos[1]) * cos(self.pos[2]) * cos(self.pos[3]) * cos(self.pos[4]) * cos(self.pos[5])	# s0s1c2c3c4c5
+		
+		# basis function 60-69
+		self.basis[60] = sin(self.pos[0]) * cos(self.pos[1]) * sin(self.pos[2]) * sin(self.pos[3]) * sin(self.pos[4]) * sin(self.pos[5])	# s0c1s2s3s4s5
+		self.basis[61] = sin(self.pos[0]) * cos(self.pos[1]) * sin(self.pos[2]) * sin(self.pos[3]) * sin(self.pos[4]) * cos(self.pos[5])	# s0c1s2s3s4c5
+		self.basis[62] = sin(self.pos[0]) * cos(self.pos[1]) * sin(self.pos[2]) * sin(self.pos[3]) * cos(self.pos[4]) * sin(self.pos[5])	# s0c1s2s3c4s5
+		self.basis[63] = sin(self.pos[0]) * cos(self.pos[1]) * sin(self.pos[2]) * sin(self.pos[3]) * cos(self.pos[4]) * cos(self.pos[5])	# s0c1s2s3c4c5
+		self.basis[64] = sin(self.pos[0]) * cos(self.pos[1]) * sin(self.pos[2]) * cos(self.pos[3]) * sin(self.pos[4]) * sin(self.pos[5])	# s0c1s2c3s4s5
+		self.basis[65] = sin(self.pos[0]) * cos(self.pos[1]) * sin(self.pos[2]) * cos(self.pos[3]) * sin(self.pos[4]) * cos(self.pos[5])	# s0c1s2c3s4c5
+		self.basis[66] = sin(self.pos[0]) * cos(self.pos[1]) * sin(self.pos[2]) * cos(self.pos[3]) * cos(self.pos[4]) * sin(self.pos[5])	# s0c1s2c3c4s5
+		self.basis[67] = sin(self.pos[0]) * cos(self.pos[1]) * sin(self.pos[2]) * cos(self.pos[3]) * cos(self.pos[4]) * cos(self.pos[5])	# s0c1s2c3c4c5
+		self.basis[68] = sin(self.pos[0]) * cos(self.pos[1]) * cos(self.pos[2]) * sin(self.pos[3]) * sin(self.pos[4]) * sin(self.pos[5])	# s0c1c2s3s4s5
+		self.basis[69] = sin(self.pos[0]) * cos(self.pos[1]) * cos(self.pos[2]) * sin(self.pos[3]) * sin(self.pos[4]) * cos(self.pos[5])	# s0c1c2s3s4c5
+		
+		# basis function 70-79
+		self.basis[70] = sin(self.pos[0]) * cos(self.pos[1]) * cos(self.pos[2]) * sin(self.pos[3]) * cos(self.pos[4]) * sin(self.pos[5])	# s0c1c2s3c4s5
+		self.basis[71] = sin(self.pos[0]) * cos(self.pos[1]) * cos(self.pos[2]) * sin(self.pos[3]) * cos(self.pos[4]) * cos(self.pos[5])	# s0c1c2s3c4c5
+		self.basis[72] = sin(self.pos[0]) * cos(self.pos[1]) * cos(self.pos[2]) * cos(self.pos[3]) * sin(self.pos[4]) * sin(self.pos[5])	# s0c1c2c3s4s5
+		self.basis[73] = sin(self.pos[0]) * cos(self.pos[1]) * cos(self.pos[2]) * cos(self.pos[3]) * sin(self.pos[4]) * cos(self.pos[5])	# s0c1c2c3s4c5
+		self.basis[74] = sin(self.pos[0]) * cos(self.pos[1]) * cos(self.pos[2]) * cos(self.pos[3]) * cos(self.pos[4]) * sin(self.pos[5])	# s0c1c2c3c4s5
+		self.basis[75] = sin(self.pos[0]) * cos(self.pos[1]) * cos(self.pos[2]) * cos(self.pos[3]) * cos(self.pos[4]) * cos(self.pos[5])	# s0c1c2c3c4c5
+		self.basis[76] = cos(self.pos[0]) * sin(self.pos[1]) * sin(self.pos[2]) * sin(self.pos[3]) * sin(self.pos[4]) * sin(self.pos[5])	# c0s1s2s3s4s5
+		self.basis[77] = cos(self.pos[0]) * sin(self.pos[1]) * sin(self.pos[2]) * sin(self.pos[3]) * sin(self.pos[4]) * cos(self.pos[5])	# c0s1s2s3s4c5
+		self.basis[78] = cos(self.pos[0]) * sin(self.pos[1]) * sin(self.pos[2]) * sin(self.pos[3]) * cos(self.pos[4]) * sin(self.pos[5])	# c0s1s2s3c4s5
+		self.basis[79] = cos(self.pos[0]) * sin(self.pos[1]) * sin(self.pos[2]) * sin(self.pos[3]) * cos(self.pos[4]) * cos(self.pos[5])	# c0s1s2s3c4c5
+		
+		# basis function 80-89
+		self.basis[80] = cos(self.pos[0]) * sin(self.pos[1]) * sin(self.pos[2]) * cos(self.pos[3]) * sin(self.pos[4]) * sin(self.pos[5])	# c0s1s2c3s4s5
+		self.basis[81] = cos(self.pos[0]) * sin(self.pos[1]) * sin(self.pos[2]) * cos(self.pos[3]) * sin(self.pos[4]) * cos(self.pos[5])	# c0s1s2c3s4c5
+		self.basis[82] = cos(self.pos[0]) * sin(self.pos[1]) * sin(self.pos[2]) * cos(self.pos[3]) * cos(self.pos[4]) * sin(self.pos[5])	# c0s1s2c3c4s5
+		self.basis[83] = cos(self.pos[0]) * sin(self.pos[1]) * sin(self.pos[2]) * cos(self.pos[3]) * cos(self.pos[4]) * cos(self.pos[5])	# c0s1s2c3c4c5
+		self.basis[84] = cos(self.pos[0]) * sin(self.pos[1]) * cos(self.pos[2]) * sin(self.pos[3]) * sin(self.pos[4]) * sin(self.pos[5])	# c0s1c2s3s4s5
+		self.basis[85] = cos(self.pos[0]) * sin(self.pos[1]) * cos(self.pos[2]) * sin(self.pos[3]) * sin(self.pos[4]) * cos(self.pos[5])	# c0s1c2s3s4c5
+		self.basis[86] = cos(self.pos[0]) * sin(self.pos[1]) * cos(self.pos[2]) * sin(self.pos[3]) * cos(self.pos[4]) * sin(self.pos[5])	# c0s1c2s3c4s5
+		self.basis[87] = cos(self.pos[0]) * sin(self.pos[1]) * cos(self.pos[2]) * sin(self.pos[3]) * cos(self.pos[4]) * cos(self.pos[5])	# c0s1c2s3c4c5
+		self.basis[88] = cos(self.pos[0]) * sin(self.pos[1]) * cos(self.pos[2]) * cos(self.pos[3]) * sin(self.pos[4]) * sin(self.pos[5])	# c0s1c2c3s4s5
+		self.basis[89] = cos(self.pos[0]) * sin(self.pos[1]) * cos(self.pos[2]) * cos(self.pos[3]) * sin(self.pos[4]) * cos(self.pos[5])	# c0s1c2c3s4c5
+		
+		# basis function 90-99
+		self.basis[90] = cos(self.pos[0]) * sin(self.pos[1]) * cos(self.pos[2]) * cos(self.pos[3]) * cos(self.pos[4]) * sin(self.pos[5])	# c0s1c2c3c4s5
+		self.basis[91] = cos(self.pos[0]) * sin(self.pos[1]) * cos(self.pos[2]) * cos(self.pos[3]) * cos(self.pos[4]) * cos(self.pos[5])	# c0s1c2c3c4c5
+		self.basis[92] = cos(self.pos[0]) * cos(self.pos[1]) * sin(self.pos[2]) * sin(self.pos[3]) * sin(self.pos[4]) * sin(self.pos[5])	# c0c1s2s3s4s5
+		self.basis[93] = cos(self.pos[0]) * cos(self.pos[1]) * sin(self.pos[2]) * sin(self.pos[3]) * sin(self.pos[4]) * cos(self.pos[5])	# c0c1s2s3s4c5
+		self.basis[94] = cos(self.pos[0]) * cos(self.pos[1]) * sin(self.pos[2]) * sin(self.pos[3]) * cos(self.pos[4]) * sin(self.pos[5])	# c0c1s2s3c4s5
+		self.basis[95] = cos(self.pos[0]) * cos(self.pos[1]) * sin(self.pos[2]) * sin(self.pos[3]) * cos(self.pos[4]) * cos(self.pos[5])	# c0c1s2s3c4c5
+		self.basis[96] = cos(self.pos[0]) * cos(self.pos[1]) * sin(self.pos[2]) * cos(self.pos[3]) * sin(self.pos[4]) * sin(self.pos[5])	# c0c1s2c3s4s5
+		self.basis[97] = cos(self.pos[0]) * cos(self.pos[1]) * sin(self.pos[2]) * cos(self.pos[3]) * sin(self.pos[4]) * cos(self.pos[5])	# c0c1s2c3s4c5
+		self.basis[98] = cos(self.pos[0]) * cos(self.pos[1]) * sin(self.pos[2]) * cos(self.pos[3]) * cos(self.pos[4]) * sin(self.pos[5])	# c0c1s2c3c4s5
+		self.basis[99] = cos(self.pos[0]) * cos(self.pos[1]) * sin(self.pos[2]) * cos(self.pos[3]) * cos(self.pos[4]) * cos(self.pos[5])	# c0c1s2c3c4c5
+		
+		# basis function 100-107
+		self.basis[100] = cos(self.pos[0]) * cos(self.pos[1]) * cos(self.pos[2]) * sin(self.pos[3]) * sin(self.pos[4]) * sin(self.pos[5])	# c0c1c2s3s4s5
+		self.basis[101] = cos(self.pos[0]) * cos(self.pos[1]) * cos(self.pos[2]) * sin(self.pos[3]) * sin(self.pos[4]) * cos(self.pos[5])	# c0c1c2s3s4c5
+		self.basis[102] = cos(self.pos[0]) * cos(self.pos[1]) * cos(self.pos[2]) * sin(self.pos[3]) * cos(self.pos[4]) * sin(self.pos[5])	# c0c1c2s3c4s5
+		self.basis[103] = cos(self.pos[0]) * cos(self.pos[1]) * cos(self.pos[2]) * sin(self.pos[3]) * cos(self.pos[4]) * cos(self.pos[5])	# c0c1c2s3c4c5
+		self.basis[104] = cos(self.pos[0]) * cos(self.pos[1]) * cos(self.pos[2]) * cos(self.pos[3]) * sin(self.pos[4]) * sin(self.pos[5])	# c0c1c2c3s4s5
+		self.basis[105] = cos(self.pos[0]) * cos(self.pos[1]) * cos(self.pos[2]) * cos(self.pos[3]) * sin(self.pos[4]) * cos(self.pos[5])	# c0c1c2c3s4c5
+		self.basis[106] = cos(self.pos[0]) * cos(self.pos[1]) * cos(self.pos[2]) * cos(self.pos[3]) * cos(self.pos[4]) * sin(self.pos[5])	# c0c1c2c3c4s5
+		self.basis[107] = cos(self.pos[0]) * cos(self.pos[1]) * cos(self.pos[2]) * cos(self.pos[3]) * cos(self.pos[4]) * cos(self.pos[5])	# c0c1c2c3c4c5

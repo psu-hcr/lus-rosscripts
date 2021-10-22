@@ -1,0 +1,74 @@
+"""
+This is a script of basis function for Koopman Operator
+This basis is same as the one in active learning paper
+"""
+
+	def basis_func(self, measure):
+		"""
+		convert measurement into basis function
+		"""
+		
+		# initial basis function
+		self.basis = np.zeros(self.size)
+		
+		# classify measure into position, velocity and torque
+		self.pos = measure[:7]
+		self.vel = measure[7:14]
+		self.Torque = measure[14:21]
+		self.endpos = measure[21:]
+		
+		# basis function 0-13 are pos & vel
+		self.basis[:14] = measure[:14]
+		
+		# 14-21 are fianl position and orientation of end effector
+		self.basis[14:21] = self.endpos
+		
+		# Last 7 are input/eff
+		self.basis[(self.size-self.inputsize):] = self.Torque
+		
+		# basis function 21-29
+		self.basis[21] = self.pos[0]*self.pos[1]
+		self.basis[22] = self.pos[1]*self.pos[2]
+		self.basis[23] = self.pos[2]*self.pos[3]
+		self.basis[24] = self.pos[3]*self.pos[4]
+		self.basis[25] = self.pos[4]*self.pos[5]
+		self.basis[26] = self.pos[5]*self.pos[6]
+		self.basis[27] = (self.pos[0]**2)*(self.pos[1]**2)
+		self.basis[28] = (self.pos[1]**2)*(self.pos[2]**2)
+		self.basis[29] = (self.pos[2]**2)*(self.pos[3]**2)
+		
+		# basis function 30-39
+		self.basis[30] = (self.pos[3]**2)*(self.pos[4]**2)
+		self.basis[31] = (self.pos[4]**2)*(self.pos[5]**2)
+		self.basis[32] = (self.pos[5]**2)*(self.pos[6]**2)
+		self.basis[33] = 1															# constant variable
+		self.basis[34] = (self.pos[0]**3)*(self.pos[1]**3)
+		self.basis[35] = (self.pos[1]**3)*(self.pos[2]**3)
+		self.basis[36] = (self.pos[2]**3)*(self.pos[3]**3)
+		self.basis[37] = (self.pos[3]**3)*(self.pos[4]**3)
+		self.basis[38] = (self.pos[4]**3)*(self.pos[5]**3)
+		self.basis[39] = (self.pos[5]**3)*(self.pos[6]**3)
+		
+		# basis function 40-49
+		self.basis[40] = self.vel[0]*self.vel[1]
+		self.basis[41] = self.vel[1]*self.vel[2]
+		self.basis[42] = self.vel[2]*self.vel[3]
+		self.basis[43] = self.vel[3]*self.vel[4]
+		self.basis[44] = self.vel[4]*self.vel[5]
+		self.basis[45] = self.vel[5]*self.vel[6]
+		self.basis[46] = (self.vel[0]**2)*(self.vel[1]**2)
+		self.basis[47] = (self.vel[1]**2)*(self.vel[2]**2)
+		self.basis[48] = (self.vel[2]**2)*(self.vel[3]**2)
+		self.basis[49] = (self.vel[3]**2)*(self.vel[4]**2)
+		
+		# basis function 50-57
+		self.basis[50] = (self.vel[4]**2)*(self.vel[5]**2)
+		self.basis[51] = (self.vel[5]**2)*(self.vel[6]**2)
+		self.basis[52] = (self.vel[0]**3)*(self.vel[1]**3)
+		self.basis[53] = (self.vel[1]**3)*(self.vel[2]**3)
+		self.basis[54] = (self.vel[2]**3)*(self.vel[3]**3)
+		self.basis[55] = (self.vel[3]**3)*(self.vel[4]**3)
+		self.basis[56] = (self.vel[4]**3)*(self.vel[5]**3)
+		self.basis[57] = (self.vel[5]**3)*(self.vel[6]**3)		
+
+		return self.basis
