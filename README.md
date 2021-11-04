@@ -30,4 +30,4 @@ The command above will place this submodule repo in a detached head state. If yo
 
     $ roslaunch bendJ2J6
 	
-## Run a simple example compensating for gravity with a torque on Joint 4 when it is held at 90def
+## Run a simple example using a low torque to move Joint 4 from 90def to 0deg (slowly increase the constant torque value until error results
