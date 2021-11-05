@@ -24,7 +24,11 @@ Step 1: Run command below to launch Gazebo with IIWA in position-control mode.
 
 	$ roslaunch iiwa_gazebo iiwa_gazebo.launch controller:=PositionController
 
-Step 2: Open a new Terminal. Source the project. Run command below to run code.
+Step 2: Open a new Terminal. Source the project. If BendJ4.py is not executable, run command:
+
+	$ chmod +x BendJ4.py
+
+Step 3: Run command below to run code.
 
 	$ rosrun iiwa_ros BendJ4.py
 	
@@ -45,7 +49,11 @@ Step 1: Run command below to launch Gazebo with IIWA in position-control mode.
 
 	$ roslaunch iiwa_gazebo iiwa_gazebo.launch controller:=PositionController
 
-Step 2: Open a new Terminal. Source the project. Run command below to run code.
+Step 2: Open a new Terminal. Source the project. If BendJ2J6.py is not executable, run command:
+
+	$ chmod +x BendJ2J6.py
+
+Step 3: Rosrun code
 
 	$ rosrun iiwa_ros BendJ2J6.py
 	
@@ -66,7 +74,11 @@ Step 1: Run command below to launch Gazebo with IIWA in position-control mode.
 
 	$ roslaunch iiwa_gazebo iiwa_gazebo.launch 
 
-Step 2: Open a new Terminal. Source the project. Run command below to run code.
+Step 2: Open a new Terminal. Source the project. If BendJ4_T.py is not executable, run command:
+
+	$ chmod +x BendJ4_T.py
+
+Step 3: Run command below to run code.
 
 	$ rosrun iiwa_ros BendJ4_T.py
 	
