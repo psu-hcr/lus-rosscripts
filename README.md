@@ -41,7 +41,7 @@ Step 4: Open a new Terminal. Source the project. Run command below to run code.
 
 ## Run a simple example Joint 2 and Joint 6 each from 0deg to 90deg
 ### In Simulation
-Step 1: Run command below to launch Gazebo with IIWA in position-control mode.Choose "position" and stiffness "150" on smartpad
+Step 1: Run command below to launch Gazebo with IIWA in position-control mode.
 
 	$ roslaunch iiwa_gazebo iiwa_gazebo.launch controller:=PositionController
 
@@ -50,7 +50,7 @@ Step 2: Open a new Terminal. Source the project. Run command below to run code.
 	$ rosrun iiwa_ros BendJ2J6.py
 	
 ### On the LBR
-Step 1 & 2: Follow step 1 & 2 in epfl-lasa/iiwa_ros repo section "Control IIWA with FRI"
+Step 1 & 2: Follow step 1 & 2 in epfl-lasa/iiwa_ros repo section "Control IIWA with FRI". Choose "position" and stiffness "150" on smartpad
 
 Step 3: Within 5 seconds before the timeout, launch: 
 
@@ -60,4 +60,24 @@ Step 4: Open a new Terminal. Source the project. Run command below to run code.
 	
 	$ rosrun iiwa_ros BendJ2J6.py
 	
-## Run a simple example using a low torque to move Joint 4 from 90def to 0deg (slowly increase the constant torque value until error results
+## Run a simple example using a low torque to move Joint 4 from 90def to 0deg (slowly increase the constant torque value until error results)
+### In Simulation
+Step 1: Run command below to launch Gazebo with IIWA in position-control mode.
+
+	$ roslaunch iiwa_gazebo iiwa_gazebo.launch 
+
+Step 2: Open a new Terminal. Source the project. Run command below to run code.
+
+	$ rosrun iiwa_ros BendJ4_T.py
+	
+### On the LBR
+Step 1 & 2: Follow step 1 & 2 in epfl-lasa/iiwa_ros repo section "Control IIWA with FRI" Choose "Torque" and stiffness "0" on smartpad
+
+
+Step 3: Within 5 seconds before the timeout, launch: 
+
+	$ roslaunch iiwa_driver iiwa_bringup.launch 
+	
+Step 4: Open a new Terminal. Source the project. Run command below to run code.
+	
+	$ rosrun iiwa_ros BendJ4_T.py
