@@ -126,7 +126,7 @@ def main():
 		
 		# pose1
 		rospy.loginfo("Move to pose 1")
-		target1 = [pi/4, pi/4, pi/4, pi/2, pi/4, pi/4, pi/4]
+		target1 = [0, 0, 0, pi/2, 0, 0, 0]
 		test.updategoal_joint(target1)
 		rospy.sleep(4.)
 		
@@ -134,7 +134,7 @@ def main():
 		print('current pose:')
 		print(test.currentposition())
 		
-		
+		"""
 		# pose2
 		rospy.loginfo("Move to pose 2")
 		target2 = [0.5, 0.2, 0.5, 0.3, 0.5, -0.5, 0.5]
@@ -144,7 +144,7 @@ def main():
 		# read current position in world frame and print
 		print('current pose:')
 		print(test.currentposition())
-		"""
+		
 		# pose3
 		rospy.loginfo("Move to pose 3")
 		pose3 = Pose()
