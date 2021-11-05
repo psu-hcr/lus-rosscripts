@@ -2,7 +2,7 @@
 """
 Zhiqing Lu
 
-This node move robot to a desire pose in world frame. It use iiwa_ik_server to solve ik and use /iiwa/iiwa_fk_server to provide current pose.
+This node rotate robot Joint 4 pi/2 degree and back to zero
 SUBSCRIBERS:
 	- /iiwa/joint_states (JointState)
 PUBLISHERS:
@@ -20,6 +20,7 @@ from iiwa_tools.srv import GetIK, GetIKRequest, GetFK
 from geometry_msgs.msg import Pose
 import pandas as pd
 import numpy as np
+from math import pi
 
 
 class Move:
@@ -69,11 +70,11 @@ class Move:
 		
 	def update_state(self,data):
 		"""
-		update data and storing position, velocity effort, end effector pos & orientation
+		update data and storing position, velocity, effort
 		"""
 		self.rob_state = data
 		self.currentposition
-		self.measurement = np.vstack((self.measurement, np.concatenate((self.rob_state.position,self.rob_state.velocity, self.rob_state.effort,self.sol_pose), axis=None)))
+		self.measurement = np.vstack((self.measurement, np.concatenate((self.rob_state.position,self.rob_state.velocity, self.rob_state.effort), axis=None)))
 		
 	def updategoal_pose(self, target):
 		"""
@@ -99,6 +100,7 @@ class Move:
 		self.seed.data = self.rob_state.position
 		self.respFK = self.get_fk(self.seed)
 		self.sol_pose = self.respFK.poses[0]
+		return self.sol_pose
 		
 		
 	def back2zeros(self):
@@ -124,13 +126,14 @@ def main():
 		
 		# pose1
 		rospy.loginfo("Move to pose 1")
-		target1 = [0, 0, 0, 0.3, 0, 0, 0]
+		target1 = [pi/4, pi/4, pi/4, pi/2, pi/4, pi/4, pi/4]
 		test.updategoal_joint(target1)
 		rospy.sleep(4.)
 		
 		# read current position in world frame and print
 		print('current pose:')
 		print(test.currentposition())
+		
 		
 		# pose2
 		rospy.loginfo("Move to pose 2")
@@ -141,9 +144,6 @@ def main():
 		# read current position in world frame and print
 		print('current pose:')
 		print(test.currentposition())
-		
-	
-		
 		"""
 		# pose3
 		rospy.loginfo("Move to pose 3")
@@ -177,6 +177,7 @@ def main():
 		# read current position in world frame
 		test.currentposition()
 		"""
+		
 		# back to zero position
 		test.back2zeros()
 		rospy.sleep(4.)
@@ -186,7 +187,7 @@ def main():
 		
 		# output data to excel
 		df = pd.DataFrame(test.measurement)
-		path = '/home/zxl5344/catkin_ws/src/iiwa_ros/iiwa_ros/scripts/jointposition.csv'
+		path = '/home/zxl5344/catkin_ws/src/iiwa_ros/iiwa_ros/lus-rosscripts/Move_to_dot.csv'
 		df.to_csv(path, header=False, index=False)
 		   
 		  

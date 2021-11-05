@@ -93,3 +93,13 @@ Step 3: Within 5 seconds before the timeout, launch:
 Step 4: Open a new Terminal. Source the project. Run command below to run code.
 	
 	$ rosrun iiwa_ros BendJ4_T.py
+	
+## How to fix some common issues
+### Smartpad shows "hardware limit exceeded drive (X)"
+Step 1: look at "Axis Position" in "robot" page. Find the exceed limit axis.
+
+Step 2: Go to "mastering" in "robot" page. Unmaster the problem axis
+
+Step 3: Go to "T1" mode. Jog the robot back to working space
+
+Step 4: Master again and error should be solved
