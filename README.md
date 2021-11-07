@@ -14,9 +14,9 @@ This project is set up as a submodule of the psu-hcr fork of epfl-lasa/iiwa_ros 
 The command above will place this submodule repo in a detached head state. If you want to make modifications and push to the lus-rosscripts repo, contact Lu.
 
 ## To source the project
-You should source the project whenever you open a new Terminal. Run command below to source your project: 
+You should source setup.bash of your workspace whenever you open a new Terminal. Run command below to source your project: 
 
-	$ source /opt/ros/noetic/setup.bash 
+	$ source devel/setup.bash
 	
 ## Run a simple example moving Joint 4 of the kuka from 0 to 90deg
 ### In Simulation

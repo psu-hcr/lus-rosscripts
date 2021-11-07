@@ -144,6 +144,16 @@ def main():
 		# read current position in world frame and print
 		print('current pose:')
 		print(test.currentposition())
+		
+		# pose3
+		rospy.loginfo("Move to pose 3")
+		target3 = [-0.6, -0.3, 0.25, 0.15, 1, 0.5, -0.5]
+		test.updategoal_joint(target3)
+		rospy.sleep(4.)
+		
+		# read current position in world frame and print
+		print('current pose:')
+		print(test.currentposition())
 		"""
 		# pose3
 		rospy.loginfo("Move to pose 3")
