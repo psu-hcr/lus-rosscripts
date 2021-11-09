@@ -3,20 +3,35 @@ This is a temporary file for lus iiwa_ros scripts. These need to be organized in
 
 ##These scripts must be documented in the readme or removed. 
 
+This project is set up as a submodule of the psu-hcr fork of epfl-lasa/iiwa_ros repo. If you want to make modifications and push to the lus-rosscripts repo, contact Lu.
+
 ## Requirements
+### Setup catkin workspace
+Step 1: source your environment
 
-This project is set up as a submodule of the psu-hcr fork of epfl-lasa/iiwa_ros repo. You should clone this repo and initialize submodules
+	$ source /opt/ros/noetic/setup.bash
 
+Step 2: create and build a catkin workspace. 
+
+	$ mkdir -p ~/catkin_ws/src
+	$ cd ~/catkin_ws/
+	$ catkin_make
+	
+### Clone this repo and initialize submodules
+
+	$ cd ~/catkin_ws/src
 	$ git clone https://github.com/psu-hcr/iiwa_ros.git
 	$ git submodule init
 	$ git submodule update
-	
-The command above will place this submodule repo in a detached head state. If you want to make modifications and push to the lus-rosscripts repo, contact Lu.
+
+### Install Dependcies from epfl-lasa/iiwa_ros repo
+Follow the **Dependcies** and **Compilation** sections in [epfl-lasa/iiwa_ros repo](https://github.com/epfl-lasa/iiwa_ros).
+Go through **Basic Usage** section to make sure repo is set up correctly.
 
 ## To source the project
 You should source setup.bash of your workspace whenever you open a new Terminal. Run command below to source your project: 
 
-	$ source devel/setup.bash
+	$ source ~/catkin_ws/devel/setup.bash
 	
 ## Run a simple example moving Joint 4 of the kuka from 0 to 90deg
 ### In Simulation
@@ -93,6 +108,13 @@ Step 3: Within 5 seconds before the timeout, launch:
 Step 4: Open a new Terminal. Source the project. Run command below to run code.
 	
 	$ rosrun iiwa_ros BendJ4_T.py
+	
+## How to use iiwa_moveit
+Step 1: lunch iiwa_moveit
+
+	$ roslaunch iiwa_moveit demo.launch driver:=true
+
+step 2: Within 10 seconds before the timeout, run "FRIOverlay" applications on KUKA smart pad
 	
 ## How to fix some common issues
 ### Smartpad shows "hardware limit exceeded drive (X)"
