@@ -21,6 +21,7 @@ Step 2: create and build a catkin workspace.
 
 	$ cd ~/catkin_ws/src
 	$ git clone https://github.com/psu-hcr/iiwa_ros.git
+	$ cd iiwa_ros/
 	$ git submodule init
 	$ git submodule update
 
