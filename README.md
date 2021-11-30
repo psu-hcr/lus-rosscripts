@@ -1,8 +1,5 @@
 # lus-rosscripts
 This is a temporary file for lus iiwa_ros scripts. These need to be organized into a single package and removed from the organization repo.
-
-##These scripts must be documented in the readme or removed. 
-
 This project is set up as a submodule of the psu-hcr fork of epfl-lasa/iiwa_ros repo. If you want to make modifications and push to the lus-rosscripts repo, contact Lu.
 
 ## Requirements
