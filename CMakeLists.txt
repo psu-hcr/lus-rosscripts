@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16.3)
+cmake_minimum_required(VERSION 2.8.3)
 project(iiwa_ros)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -28,5 +28,6 @@ target_link_libraries(figure8
 	${ARMADILLO_LIBRARIES}
 	${catkin_LIBRARIES}
 	${std_msgs_LIBRARIES})
+	
 
 
