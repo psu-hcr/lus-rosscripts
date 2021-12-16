@@ -139,6 +139,8 @@ Step 5: Go back to the iiwa_description folder and create a copy of the iiwa14.x
 	
 Step 6: In the .xacro folder find the joint between link 6 and end effector (~line 390). Change the link visual and collision geometry to the file path to the STL file of the end effector (lines 408 and 417 respectively). Make sure to uncomment the line.
 
-Step 7: In the .urdf.xacro file change the robot name (line 27), iiwa macro filename (line 31) and xacro name (line 51 and 53) to the number assigned to the new file (ex. from iiwa14 to iiwa 15).
+Step 7: In the .urdf.xacro file change the robot name (line 27) and the iiwa macro filename (line 31)  to the number assigned to the new file (ex. from iiwa14 to iiwa15).
 
-Step 8: To launch the robot with the end effector use the following command: roslaunch iiwa_gazebo iiwa_gazebo.launch model:="(model number assigned to new model)"
+Step 8: go to the directory catkin_ws/src/iiwa_ros/iiwa_description/launch and create a copy of the iiwa14_upload.launch file. Rename the file with the same model number you used for the .urdf.xacro and .xacro files. On line 34, change the name of the .urdf.xacro file to have the correct model number.
+
+Step 9: To launch the robot with the end effector use the following command: roslaunch iiwa_gazebo iiwa_gazebo.launch model:="(model number assigned to new model)"
