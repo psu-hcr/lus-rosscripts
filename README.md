@@ -123,3 +123,22 @@ Step 2: Go to "mastering" in "robot" page. Unmaster the problem axis
 Step 3: Go to "T1" mode. Jog the robot back to working space
 
 Step 4: Master again and error should be solved
+
+## Adding/changing robot end effectors
+# Preparing STL file
+Step 1: Create a 3d model of the end effector.
+
+Step 2: The default unit for the URDF format is the meter, which means if you made the part in millimeter you need to scale your model down 1000x.
+In addition, it is critical that you know where the origin is relative to the model. You may have to move the model to get the origin to align.
+
+Step 3: Export the end effector as an STL file.
+
+Step 4: Go to the catkin_ws/src/iiwa_ros/iiwa_description/meshes/iiwa14 and put the stl in both the visual and collision folders
+
+Step 5: Go back to the iiwa_description folder and create a copy of the iiwa14.xacro and iiwa14.urdf.xacro files. Rename the files by changing the number.
+	
+Step 6: In the .xacro folder find the joint between link 6 and end effector (~line 390). Change the link visual and collision geometry to the file path to the STL file of the end effector (lines 408 and 417 respectively). Make sure to uncomment the line.
+
+Step 7: In the .urdf.xacro file change the robot name (line 27), iiwa macro filename (line 31) and xacro name (line 51 and 53) to the number assigned to the new file (ex. from iiwa14 to iiwa 15).
+
+Step 8: To launch the robot with the end effector use the following command: roslaunch iiwa_gazebo iiwa_gazebo.launch model:="(model number assigned to new model)"
