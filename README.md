@@ -125,7 +125,7 @@ Step 3: Go to "T1" mode. Jog the robot back to working space
 Step 4: Master again and error should be solved
 
 ## Adding/changing robot end effectors
-# Preparing STL file
+
 Step 1: Create a 3d model of the end effector.
 
 Step 2: The default unit for the URDF format is the meter, which means if you made the part in millimeter you need to scale your model down 1000x.
