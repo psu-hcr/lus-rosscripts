@@ -135,7 +135,7 @@ Step 3: Export the end effector as an STL file.
 
 Step 4: Go to the catkin_ws/src/iiwa_ros/iiwa_description/meshes/iiwa14 and put the stl in both the visual and collision folders
 
-Step 5: Go back to the iiwa_description folder and create a copy of the iiwa14.xacro and iiwa14.urdf.xacro files. Rename the files by changing the number.
+Step 5: Go to the iiwa_description/urdf folder and create a copy of the iiwa14.xacro and iiwa14.urdf.xacro files. Rename the files by changing the number.
 	
 Step 6: In the .xacro folder find the joint between link 6 and end effector (~line 390). Change the link visual and collision geometry to the file path to the STL file of the end effector (lines 408 and 417 respectively). Make sure to uncomment the line.
 
